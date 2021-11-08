@@ -36,13 +36,13 @@ module.exports = {
     reef: {
       url: "ws://127.0.0.1:9944",
       seeds: {
-        testnet_account: "embrace apology loud evidence lobster stage scan cart trophy involve smart debris",
+        testnet_account: "<MNEMONIC_SEED>",
       },
     },
     reef_testnet: {
       url: "wss://rpc-testnet.reefscan.com/ws",
       seeds: {
-        testnet_account: "embrace apology loud evidence lobster stage scan cart trophy involve smart debris",
+        testnet_account: "<MNEMONIC_SEED>",
       },
     },
     reef_mainnet: {
