@@ -1,6 +1,27 @@
-# hardhat-reef-examples
+# Sqwid Core
 
-hardhat-reef-examples shows the use of [hardhat-reef](https://github.com/reef-defi/hardhat-reef) plugin to interact with the Reef chain.
+The smart contracts of Sqwid Marketplace
+
+Addresses on testnet:
+```sh
+COLLECTIBLE_CONTRACT_ADDRESS 0x192A6B3AA5A860F110A2479C32C29f790b21163b
+MARKETPLACE_CONTRACT_ADDRESS 0xccc5309F6E92956970000d385D817438bbF7CeA9
+UTILITY_CONTRACT_ADDRESS 0xc857bb5C1D062c465a1B3Cf8af19635cC3B8e1Bc
+```
+
+## Compiling
+
+```
+$ yarn hardhat compile
+```
+
+## Deploying
+
+```
+$ yarn deploy:erc1155
+$ yarn deploy:marketplace
+$ yarn deploy:utility
+```
 
 
 ## Installing
