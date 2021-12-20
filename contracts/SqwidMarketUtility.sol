@@ -2,6 +2,7 @@
 pragma solidity ^0.8.0;
 import "./ISqwidERC1155.sol";
 import "./ISqwidMarketplace.sol";
+import "./ISqwidERC1155Wrapper.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract SqwidMarketUtility is Ownable {
@@ -18,11 +19,19 @@ contract SqwidMarketUtility is Ownable {
         string uri;
     }
 
+    struct WrappedItem {
+        uint256 itemId;
+        uint256 tokenId;
+        string uri;
+    }
+
     address private _marketplace;
     address private _erc1155;
+    address private _wrapper;
 
     ISqwidMarketplace marketplace;
     ISqwidERC1155 erc1155;
+    ISqwidWrapper wrapper;
 
     function setMarketplace(address marketplaceAddress) public onlyOwner {
         _marketplace = marketplaceAddress;
@@ -34,12 +43,39 @@ contract SqwidMarketUtility is Ownable {
         erc1155 = ISqwidERC1155 (erc1155Address);
     }
 
+    function setWrapper(address wrapperAddress) public onlyOwner {
+        _wrapper = wrapperAddress;
+        wrapper = ISqwidWrapper (wrapperAddress);
+    }
+
     function getMarketplaceAddress () public view returns (address) {
         return _marketplace;
     }
 
     function getERC1155Address () public view returns (address) {
         return _erc1155;
+    }
+
+    function fetchWrappedTokensByOwner (address owner) public view returns (WrappedItem [] memory) {
+        ISqwidWrapper.WrappedToken [] memory wrappedItems = wrapper.getWrappedTokens ();
+
+        uint256 length = wrappedItems.length;
+        WrappedItem [] memory wrappedItemsReturn = new WrappedItem [](length);
+
+        uint256 index = 0;
+        for (uint256 i = 1; i <= length; i++) {
+            if (erc1155.balanceOf (owner, wrappedItems [i].tokenId) > 0) {
+                string memory uri = erc1155.uri (wrappedItems [i].tokenId);
+                wrappedItemsReturn [index] = WrappedItem (
+                    wrappedItems [i].id,
+                    wrappedItems [i].tokenId,
+                    uri
+                );
+                index++;
+            }
+        }
+
+        return wrappedItemsReturn;
     }
 
     function fetchMarketItem (uint256 itemId) public view returns (MarketItemReturn memory) {

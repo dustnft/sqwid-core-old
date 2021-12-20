@@ -5,6 +5,8 @@
     "deploy:erc1155": "yarn hardhat run ./scripts/sqwidERC1155/deploy.js --network reef_testnet",
     "deploy:marketplace": "yarn hardhat run ./scripts/marketplace/deploy.js --network reef_testnet",
     "deploy:utility": "yarn hardhat run ./scripts/utility/deploy.js --network reef_testnet",
+    "deploy:wrapper": "yarn hardhat run ./scripts/wrapper/deploy.js --network reef_testnet",
+    "deploy:test-erc721": "yarn hardhat run ./scripts/erc721/deploy.js --network reef_testnet",
     "test": "yarn hardhat run ./scripts/erc1155/test.js --network reef_testnet"
   },
   "devDependencies": {
@@ -17,6 +19,6 @@
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.3.2",
-    "@reef-defi/hardhat-reef": "^1.0.0"
+    "@reef-defi/hardhat-reef": "^1.0.2"
   }
 }

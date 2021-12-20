@@ -5,6 +5,7 @@ import "./sERC1155.sol";
 import './ERC2981PerTokenRoyalties.sol';
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 
 /// @title Sqwid NFT (ERC1155 With Royalties)
 /// @author @andithemudkip @boidushya
@@ -62,6 +63,7 @@ contract SqwidERC1155 is sERC1155, ERC2981PerTokenRoyalties, Ownable {
         return id;
     }
 
+
     /// @notice Mint several tokens at once
     /// @param to the recipient of the tokens
     /// @param amounts array of amount to mint for each token type
@@ -98,6 +100,32 @@ contract SqwidERC1155 is sERC1155, ERC2981PerTokenRoyalties, Ownable {
         }
     }
 
+    function burn (
+        address account,
+        uint256 id,
+        uint256 value
+    ) external {
+        require(
+            account == _msgSender() || isApprovedForAll(account, _msgSender()),
+            "ERC1155: caller is not owner nor approved"
+        );
+
+        _burn(account, id, value);
+    }
+
+    function burnBatch(
+        address account,
+        uint256[] memory ids,
+        uint256[] memory values
+    ) external {
+        require(
+            account == _msgSender() || isApprovedForAll(account, _msgSender()),
+            "ERC1155: caller is not owner nor approved"
+        );
+
+        _burnBatch(account, ids, values);
+    }
+
     function getTokensByOwner (address owner) public view returns (uint256[] memory) {
         uint256 [] memory tokens = new uint256 [] (_tokenIds.current () + 1);
         for (uint256 i = 1; i <= _tokenIds.current (); i++) {
@@ -112,7 +140,9 @@ contract SqwidERC1155 is sERC1155, ERC2981PerTokenRoyalties, Ownable {
     function getTokenSupply (uint256 _id) public view returns (uint256) {
         uint256 tokenSupply = 0;
         for (uint256 i = 0; i < getOwners (_id).length; i++) {
-            tokenSupply += balanceOf (getOwners (_id)[i], _id);
+            if (getOwners (_id)[i] != address (0)) {
+                tokenSupply += balanceOf (getOwners (_id)[i], _id);
+            }
         }
         return tokenSupply;
     }

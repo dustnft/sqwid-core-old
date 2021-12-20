@@ -26,4 +26,10 @@ interface ISqwidERC1155 is IERC1155 {
         address royaltyRecipient,
         uint256 royaltyValue
     ) external returns (uint256);
+
+    function burn (
+        address account,
+        uint256 id,
+        uint256 value
+    ) external;
 }

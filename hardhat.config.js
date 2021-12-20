@@ -42,7 +42,7 @@ module.exports = {
     reef_testnet: {
       url: "wss://rpc-testnet.reefscan.com/ws",
       seeds: {
-        testnet_account: "<MNEMONIC_SEED>",
+        testnet_account: "embrace apology loud evidence lobster stage scan cart trophy involve smart debris",
       },
     },
     reef_mainnet: {
